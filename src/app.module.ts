@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaService } from './db/prisma/prisma.service';
 import { BalancesService } from './db/balances/balances.service';
 import { ScheduleModule } from '@nestjs/schedule';
+import { TaskService } from './task/task.service';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { ScheduleModule } from '@nestjs/schedule';
     ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService, BalancesService],
+  providers: [AppService, PrismaService, BalancesService, TaskService],
 })
 export class AppModule {}

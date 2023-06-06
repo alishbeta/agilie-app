@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Balances, Prisma } from '@prisma/client';
+import { Balances, Fiats, Prisma, Tokens } from '@prisma/client';
+
+type BalancesWithTokesAndFiats = Balances & {
+  token: Tokens;
+  fiatRef: Fiats;
+};
 
 @Injectable()
 export class BalancesService {
@@ -20,7 +25,7 @@ export class BalancesService {
     cursor?: Prisma.BalancesWhereUniqueInput;
     where?: Prisma.BalancesWhereInput;
     orderBy?: Prisma.BalancesOrderByWithRelationInput;
-  }): Promise<Balances[]> {
+  }): Promise<BalancesWithTokesAndFiats[]> {
     const { skip, take, cursor, where, orderBy } = params;
     return this.prisma.balances.findMany({
       skip,
@@ -28,6 +33,10 @@ export class BalancesService {
       cursor,
       where,
       orderBy,
+      include: {
+        token: true,
+        fiatRef: true,
+      },
     });
   }
 

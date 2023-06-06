@@ -2,6 +2,10 @@ import { Inject, Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as WebSocket from 'ws';
 
+type ExchangeRateResp = {
+  ask: number;
+  bit: number;
+};
 @Injectable()
 export class KrakenProvider implements OnApplicationBootstrap {
   @Inject(ConfigService)
@@ -55,7 +59,7 @@ export class KrakenProvider implements OnApplicationBootstrap {
     );
   }
 
-  getExchangeRate(pair) {
+  getExchangeRate(pair): ExchangeRateResp {
     return this.exchangeRate[pair];
   }
 
